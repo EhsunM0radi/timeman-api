@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained()->onDelete('cascade'); // پروژه‌ای که تسک به آن تعلق دارد
+            $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
-            $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
-            $table->foreignId('assignee_id')->nullable()->constrained('users')->onDelete('set null'); // کاربر مسئول تسک
+            $table->enum('status', ['pending', 'in-progress', 'completed','blocked'])->default('pending');
+            $table->enum('priority', ['low', 'medium', 'high','urgent'])->default('medium');
+            $table->unsignedInteger('estimate')->nullable();
+            $table->foreignId('assignee_id')->nullable()->constrained('users')->nullOnDelete()->onUpdate('cascade');
+            $table->datetime('reminder')->nullable();
             $table->date('due_date')->nullable();
             $table->timestamps();
         });

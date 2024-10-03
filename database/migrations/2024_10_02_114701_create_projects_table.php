@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'in-progress', 'completed','on-hold'])->default('pending');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->foreignId('owner_id')->nullable()->constrained('users')->onDelete('set null'); // مالک پروژه
-            $table->foreignId('organization_id')->nullable()->constrained('organizations')->onDelete('set null'); // سازمان مرتبط
+            $table->foreignId('owner_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('organization_id')->nullable()->constrained('organizations')->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

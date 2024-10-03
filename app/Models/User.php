@@ -42,4 +42,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+     public function organization()
+     {
+         return $this->belongsTo(Organization::class);
+     }
+
+     public function projects()
+     {
+         return $this->hasMany(Project::class, 'owner_id');
+     }
+
+     public function tasks()
+     {
+         return $this->hasMany(Task::class, 'assignee_id');
+     }
 }

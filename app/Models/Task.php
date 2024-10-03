@@ -11,13 +11,11 @@ class Task extends Model
 
     protected $guarded = [];
 
-     // ارتباط تسک با پروژه
      public function project()
      {
          return $this->belongsTo(Project::class);
      }
 
-     // ارتباط تسک با کاربری که به آن اختصاص داده شده
      public function assignee()
      {
          return $this->belongsTo(User::class, 'assignee_id');
